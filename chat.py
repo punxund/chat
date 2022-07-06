@@ -59,7 +59,7 @@ class Client:
         sock.connect((a, 10000))
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-        iThread = threading.Thread(target=self.sendMsg, args=(sock,))
+        iThread = threading.Thread(target=self.sendMsg, args=(sock, ))
         iThread.daemon = True
         iThread.start()
 
@@ -88,7 +88,7 @@ while True:
                 sys.exit(0)
             except : 
                 pass    
-            if randint(1, 20 ) == 1:
+            if randint(1, 10) == 1:
                 try :
                     server = Server()
                 except KeyboardInterrupt:
