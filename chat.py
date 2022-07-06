@@ -88,9 +88,9 @@ class Client:
         print(p2p.peers)
 
 class p2p:
-    peers = ['146.148.45.148']#146.148.45.148
+    peers = ['']#146.148.45.148
 
-ip = input("write your IP address : ")
+ip = input("write your IP address or superpeer's IP: ")
 p2p.peers.append["\'"+ip+"\'"]
 while True:
     try : 
