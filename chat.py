@@ -17,7 +17,7 @@ class Server:
         port = 50000
         sock.bind(('0.0.0.0', port))        
         sock.listen(1)
-        print('Server Running.....')
+        print('You are a superpeer.')
 
         while True:
             c, a = sock.accept()
@@ -41,6 +41,7 @@ class Server:
                 c.close()
                 self.sendPeers()
                 break
+
     def sendPeers(self):
         p = ""
 
@@ -54,16 +55,17 @@ class Client:
 
     def sendMsg(self, sock, nickname):
         while True:
-            sock.send(bytes(nickname+":"+input(">"), 'utf-8'))
+            sock.send(bytes(nickname+">>"+sys.stdin.readline().strip(), 'utf-8'))
 
     def __init__(self, a):        
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         port = 50000
         sock.connect((a,port))
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         print("connected to the server")
         nickname = input("What is your nickname? >")
 
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        
 
         iThread = threading.Thread(target=self.sendMsg, args=(sock, nickname, ))
         iThread.daemon = True
@@ -80,14 +82,15 @@ class Client:
 
     def updatePeers(self, peerData):
         p2p.peers = str(peerData, "utf-8").split(",")[:-1]
+        print(p2p.peers)
 
 class p2p:
-    peers = ['146.148.45.148']
+    peers = ['146.148.45.148']#146.148.45.148
 
 while True:
     try : 
         print("Trying to connect ...")
-        time.sleep(randint(1, 5))
+        time.sleep(randint(1, 3))
         for peer in p2p.peers:
             try:
                 client = Client(peer)                
@@ -95,7 +98,7 @@ while True:
                 sys.exit(0)
             except : 
                 pass    
-            if randint(1, 10) == 1:
+            if randint(1, 5) == 1:
                 try :
                     server = Server()
                 except KeyboardInterrupt:
