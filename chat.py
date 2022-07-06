@@ -14,7 +14,8 @@ class Server:
     def __init__(self):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.bind(('0.0.0.0', 10000))        
+        port = 50000
+        sock.bind(('0.0.0.0', port))        
         sock.listen(1)
         print('Server Running.....')
 
@@ -25,7 +26,7 @@ class Server:
             cThread.start()
             self.connections.append(c)
             self.peers.append(a[0])
-            print(str([0])+ ':' + str(a[0]),"connected")
+            print(str(a[0])+ ':' + str(a[1]),"connected")
             self.sendPeers()
 
     def handler(self, c, a):
@@ -38,25 +39,27 @@ class Server:
                 self.connections.remove(c)
                 self.peers.remove(a[0])
                 c.close()
-                self.sendPeeers()
+                self.sendPeers()
                 break
     def sendPeers(self):
         p = ""
+
         for peer in self.peers:
             p = p + peer + ","
 
-            for connection in self.connetions:
-                connection.send(b'\x11' + bytes(p, "utf-8"))
+        for connection in self.connections:
+            connection.send(b'\x11' + bytes(p, "utf-8"))
 
 class Client:   
 
     def sendMsg(self, sock):
         while True:
-            sock.send(bytes(input(""), 'utf-8'))
+            sock.send(bytes(input(">"), 'utf-8'))
 
     def __init__(self, a):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect((a, 10000))
+        port = 50000
+        sock.connect((a,port))        
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
         iThread = threading.Thread(target=self.sendMsg, args=(sock, ))
@@ -71,11 +74,12 @@ class Client:
                 self.updatePeers(data[1:])
             else:
                  print(str(data, 'utf-8'))
+
     def updatePeers(self, peerData):
         p2p.peers = str(peerData, "utf-8").split(",")[:-1]
 
 class p2p:
-    peers = ['127.0.0.1']
+    peers = ['192.168.178.22']
 
 while True:
     try : 
@@ -83,7 +87,8 @@ while True:
         time.sleep(randint(1, 5))
         for peer in p2p.peers:
             try:
-                client = client(peer)
+                client = Client(peer)
+                print("connected to the server")
             except KeyboardInterrupt:
                 sys.exit(0)
             except : 
