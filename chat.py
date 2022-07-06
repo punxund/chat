@@ -90,6 +90,8 @@ class Client:
 class p2p:
     peers = ['146.148.45.148']#146.148.45.148
 
+ip = input("write your IP address : ")
+p2p.peers.append["\'"+ip+"\'"]
 while True:
     try : 
         print("Trying to connect ...")
