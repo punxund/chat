@@ -15,7 +15,7 @@ class Server:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         port = 50000
-        sock.bind(('10.128.0.2', port))        
+        sock.bind(('146.148.45.148', port))        
         sock.listen(1)
         print('Server Running.....')
 
@@ -52,17 +52,20 @@ class Server:
 
 class Client:   
 
-    def sendMsg(self, sock):
+    def sendMsg(self, sock, nickname):
         while True:
-            sock.send(bytes(input(">"), 'utf-8'))
+            sock.send(bytes(nickname+":"+input(">"), 'utf-8'))
 
-    def __init__(self, a):
+    def __init__(self, a):        
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         port = 50000
-        sock.connect((a,port))        
+        sock.connect((a,port))
+        print("connected to the server")
+        nickname = input("What is your nickname? >")
+
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-        iThread = threading.Thread(target=self.sendMsg, args=(sock, ))
+        iThread = threading.Thread(target=self.sendMsg, args=(sock, nickname, ))
         iThread.daemon = True
         iThread.start()
 
@@ -79,7 +82,7 @@ class Client:
         p2p.peers = str(peerData, "utf-8").split(",")[:-1]
 
 class p2p:
-    peers = ['10.128.0.2']
+    peers = ['146.148.45.148']
 
 while True:
     try : 
@@ -87,8 +90,7 @@ while True:
         time.sleep(randint(1, 5))
         for peer in p2p.peers:
             try:
-                client = Client(peer)
-                print("connected to the server")
+                client = Client(peer)                
             except KeyboardInterrupt:
                 sys.exit(0)
             except : 
