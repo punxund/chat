@@ -88,7 +88,7 @@ class Client:
         print(p2p.peers)
 
 class p2p:
-    peers = ['192.168.178.22']#146.148.45.148
+    peers = ['146.148.45.148']#146.148.45.148
 
 while True:
     try : 
