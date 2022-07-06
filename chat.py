@@ -101,7 +101,7 @@ while True:
                 sys.exit(0)
             except : 
                 pass    
-            if randint(1, 20) == 1:
+            if randint(1, 10) == 1:
                 try :
                     server = Server()
                 except KeyboardInterrupt:
