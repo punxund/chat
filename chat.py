@@ -14,8 +14,8 @@ class Server:
     def __init__(self):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        port = 10000
-        sock.bind(('34.72.75.202', port))        
+        port = 50000
+        sock.bind(('10.128.0.2', port))        
         sock.listen(1)
         print('Server Running.....')
 
@@ -58,7 +58,7 @@ class Client:
 
     def __init__(self, a):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        port = 10000
+        port = 50000
         sock.connect((a,port))        
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
@@ -79,7 +79,7 @@ class Client:
         p2p.peers = str(peerData, "utf-8").split(",")[:-1]
 
 class p2p:
-    peers = ['34.72.75.202']
+    peers = ['10.128.0.2']
 
 while True:
     try : 
