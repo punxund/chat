@@ -31,16 +31,19 @@ class Server:
 
     def handler(self, c, a):
         while True:
-            data = c.recv(1024)
-            for connection in self.connections:
-                connection.send(data)
-            if not data:
+            try :
+                data = c.recv(1024)
+                for connection in self.connections:
+                    connection.send(data)
+                                   
+            except :
                 print(str(a[0]) + ':' + str(a[1]), "disconnected")
                 self.connections.remove(c)
                 self.peers.remove(a[0])
                 c.close()
                 self.sendPeers()
                 break
+                
 
     def sendPeers(self):
         p = ""
