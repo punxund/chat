@@ -1,5 +1,5 @@
 import socket
-host='34.72.75.202'
+host='10.128.0.2'
 port=10000
 timeout_seconds=1
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
