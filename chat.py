@@ -14,7 +14,7 @@ class Server:
     def __init__(self):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        port = 50000
+        port = 10000
         sock.bind(('192.168.178.22', port))        
         sock.listen(1)
         print('Server Running.....')
@@ -58,7 +58,7 @@ class Client:
 
     def __init__(self, a):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        port = 50000
+        port = 10000
         sock.connect((a,port))        
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
