@@ -82,7 +82,7 @@ class Client:
         p2p.peers = str(peerData, "utf-8").split(",")[:-1]
 
 class p2p:
-    peers = ['192.168.178.22','146.148.45.148']
+    peers = ['146.148.45.148','192.168.178.22']
 
 while True:
     try : 
