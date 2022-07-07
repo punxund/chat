@@ -63,10 +63,7 @@ class Client:
     def __init__(self, a):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         port = 50000
-        try:
-            sock.connect((a,port))
-        except:
-            pass
+        sock.connect((a,port))
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         print("connected to the server")
         nickname = input("What is your nickname? >")
