@@ -93,26 +93,32 @@ class p2p:
 ip = input("write your IP address or superpeer's IP>>")
 p2p.peers.append(ip)
 
-
-def alarm_handler(signum, frame):
-    print("Time is up!")
-    raise TimeOutException()
-
 while True:
     try : 
         print("Trying to connect ...")
         time.sleep(5)
+        print("what is wrong -1")
+            
         for peer in p2p.peers:
+            print("what is wrong 0")
+            
             try:
-                signal.signal(signal.SIGALRM, alarm_handler)
-                signal.alarm(3)
-                client = Client(peer)                
+                client = Client(peer)
+                print("what is wrong 1")
             except KeyboardInterrupt:
+                print("what is wrong 2")
+            
                 sys.exit(0)
-            except : 
+            except :
+                print("what is wrong 3")
+            
                 pass    
             if randint(1, 10) == 1:
+                print("what is wrong 4")
+            
                 try :
+                    print("what is wrong 5")
+            
                     server = Server()
                 except KeyboardInterrupt:
                     sys.exit(0)
