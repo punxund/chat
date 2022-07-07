@@ -60,10 +60,13 @@ class Client:
         while True:
             sock.send(bytes(nickname+">>"+sys.stdin.readline().strip(), 'utf-8'))
 
-    def __init__(self, a):        
+    def __init__(self, a):
+        print("what is wrong0")
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        print("what is wrong1")
         port = 50000
         sock.connect((a,port))
+        print("what is wrong2")
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         print("connected to the server")
         nickname = input("What is your nickname? >")
@@ -85,7 +88,6 @@ class Client:
 
     def updatePeers(self, peerData):
         p2p.peers = str(peerData, "utf-8").split(",")[:-1]
-        print(p2p.peers)
 
 class p2p:
     peers = []#146.148.45.148
@@ -99,26 +101,15 @@ while True:
         time.sleep(5)
         print("what is wrong -1")
             
-        for peer in p2p.peers:
-            print("what is wrong 0")
-            
+        for peer in p2p.peers:           
             try:
                 client = Client(peer)
-                print("what is wrong 1")
-            except KeyboardInterrupt:
-                print("what is wrong 2")
-            
+            except KeyboardInterrupt:            
                 sys.exit(0)
-            except :
-                print("what is wrong 3")
-            
+            except:            
                 pass    
-            if randint(1, 10) == 1:
-                print("what is wrong 4")
-            
-                try :
-                    print("what is wrong 5")
-            
+            if randint(1, 10) == 1:                        
+                try :            
                     server = Server()
                 except KeyboardInterrupt:
                     sys.exit(0)
