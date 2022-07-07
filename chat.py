@@ -61,12 +61,12 @@ class Client:
             sock.send(bytes(nickname+">>"+sys.stdin.readline().strip(), 'utf-8'))
 
     def __init__(self, a):
-        print("what is wrong0")
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        print("what is wrong1")
         port = 50000
-        sock.connect((a,port))
-        print("what is wrong2")
+        try:
+            sock.connect((a,port))
+        except:
+            pass
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         print("connected to the server")
         nickname = input("What is your nickname? >")
@@ -98,9 +98,7 @@ p2p.peers.append(ip)
 while True:
     try : 
         print("Trying to connect ...")
-        time.sleep(5)
-        print("what is wrong -1")
-            
+        time.sleep(5)      
         for peer in p2p.peers:           
             try:
                 client = Client(peer)
