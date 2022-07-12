@@ -145,7 +145,8 @@ def main():
                     client = Client(peer, nickname)               
                 except KeyboardInterrupt:
                     sys.exit(0)
-                except : 
+                except :
+                    raise
                     pass    
                 if randint(1, 5) == 1:
                     try :
