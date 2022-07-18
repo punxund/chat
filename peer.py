@@ -2,6 +2,8 @@
 from operator import length_hint
 import socket
 import threading
+import time
+import os.path
 
 
 # list of connections
@@ -44,16 +46,24 @@ def init_chat():
 
     sock_send.bind((host, dport))
 
+    readHistory(ip_peer)
+
     while True:
         msg = input()
         sock_send.sendto(msg.encode(), (ip_peer, sport))
-        print(recv_message(msg, host))
+        msg = recv_message(msg, host)
+        print(msg)
+        saveHistory(msg, ip_peer)
 
 def chat_listener():
     while True:      
         data = sock_recv.recvfrom(1024)
-        #print(data)
-        print(recv_message(data[0].decode(), data[1][0]))
+        adr = data[1][0]
+        msg = recv_message(data[0].decode(), adr)
+        print(msg)
+        saveHistory(msg, adr)
+
+        
     
 # group chat
 def init_group_chat():
@@ -138,25 +148,27 @@ def group_sender_peer():
 
 # called when a message is received
 def recv_message(message, address):
-    return(address + ' said: ' + message)
+    return(time.strftime('%Y-%m-%d %H:%M:%S ') + address + ' said: ' + message)
 
-# # save History as txt file @Sik
-# def saveHistory(message, roomId):
-#     if os.path.exists('./cache/history_'+str(roomId)+'.txt'):         
-#         with open('./cache/history_'+str(roomId)+'.txt', 'a') as file:
-#             file.write(now.strftime('%Y-%m-%d %H:%M:%S')+' \"'+message+'\"\n')
-#             #print(now.strftime('%Y-%m-%d %H:%M:%S')+' "'+message+'"')
-#     else: 
-#         f = open('./cache/history_'+str(roomId)+'.txt', 'w')
-#         f.write(now.strftime('%Y-%m-%d %H:%M:%S')+' \"'+message+'\"\n')
-#         f.close()
+# save History as txt file @Sik
+def saveHistory(message, ip_peer):
+    path = os.path.join('.', 'src', 'cache', 'history_'+str(ip_peer)+'.txt')
+    if os.path.exists(path):         
+        with open(path, 'a') as file:
+            file.write(message + '\n')
+            #print(now.strftime('%Y-%m-%d %H:%M:%S')+' "'+message+'"')
+    else: 
+        f = open(path, 'w')
+        f.write(message + '\n')
+        f.close()
 
-# # read History
-# def readHistory(roomId):
-#     if os.path.exists('./cache/history_'+str(roomId)+'.txt'):
-#         with open('./cache/history_'+str(roomId)+'.txt', 'r') as file:
-#             for line in file:
-#                 print(line, end='')
+# read History
+def readHistory(ip_peer):
+    path = os.path.join('.', 'src', 'cache', 'history_'+str(ip_peer)+'.txt')
+    if os.path.exists(path):
+        with open(path, 'r') as file:
+            for line in file:
+                print(line, end='')
 def main():
     not_selected = True
     while not_selected:
